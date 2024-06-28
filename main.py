@@ -2,6 +2,7 @@ import sys
 import pandas as pd
 from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QPushButton, QFileDialog, QLabel
 
+
 class ExcelViewer(QWidget):
     def __init__(self):
         super().__init__()
@@ -14,6 +15,9 @@ class ExcelViewer(QWidget):
         self.loadButton.clicked.connect(self.loadExcel)
         self.layout.addWidget(self.loadButton)
 
+        self.plotButton = QPushButton('Plot diagram', self)
+        self.layout.addWidget(self.plotButton)
+
         self.resultLabel = QLabel('Value will be displayed here', self)
         self.layout.addWidget(self.resultLabel)
 
@@ -23,7 +27,8 @@ class ExcelViewer(QWidget):
 
     def loadExcel(self):
         options = QFileDialog.Options()
-        fileName, _ = QFileDialog.getOpenFileName(self, "Open Excel File", "", "Excel Files (*.xls *.xlsx);;All Files (*)", options=options)
+        fileName, _ = QFileDialog.getOpenFileName(self, "Open Excel File", "",
+                                                  "Excel Files (*.xls *.xlsx);;All Files (*)", options=options)
         if fileName:
             df = pd.read_excel(fileName)
             if not df.empty:
@@ -31,6 +36,7 @@ class ExcelViewer(QWidget):
                 self.resultLabel.setText(f'First row, first column value: {value}')
             else:
                 self.resultLabel.setText('The Excel file is empty')
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
